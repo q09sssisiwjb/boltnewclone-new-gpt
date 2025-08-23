@@ -43,7 +43,7 @@ export function ThemeProvider({
           email: user.email
         });
         setUserDetail(result as any);
-        console.log(result);
+        console.error(result);
       }
     }
   };

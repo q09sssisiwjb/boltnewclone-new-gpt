@@ -8,6 +8,7 @@ import { UserDetailContext } from "@/context/UserDetailContext";
 import Image  from "next/image";
 import {ArrowRight, Link, Loader2Icon} from "lucide-react";
 import {LOOKUP} from "@/data/Lookup";
+import Prompt from "@/data/Prompt";
 import axios from "axios";
 
 const ChatView = () => {
@@ -23,7 +24,7 @@ const ChatView = () => {
   const router = useRouter();
 
   if(!userDetailContext || !messageContext) {
-    console.log("UserDetailContext or MessageContext is not available");
+    console.error("UserDetailContext or MessageContext is not available");
     return null;
   }
 
@@ -47,9 +48,7 @@ const ChatView = () => {
       const result = await convex.query(api.workspace.GetUserWorkSpace, {
         workspaceId: id as any,
       });
-      // console.log("Workspace data:", result);
       setMessages(result?.message );
-      console.log("Messages set:", messages);
     } catch (error) {
       console.error("Error fetching workspace data:", error);
     }
@@ -66,7 +65,7 @@ const ChatView = () => {
 
   const GetAiResponse= async ()=>{
     setLoading(true)
-    const PROMPT= JSON.stringify(messages)+ "A PROMPT" // TODO: Add a prompt
+    const PROMPT= JSON.stringify(messages)+ " "+Prompt.CHAT_PROMPT
     const result = await axios.post('/api/ai-chat',{
        prompt:PROMPT
     })

@@ -14,6 +14,7 @@ import { MessageContext } from '@/providers/MessageContext';
 import { useConvex, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useParams } from 'next/navigation';
+import Prompt from "@/data/Prompt";
 import { Loader2Icon } from 'lucide-react';
 
 const CodeView = () => {
@@ -50,13 +51,11 @@ const CodeView = () => {
     const GenerateAiCode=async()=>{
       setActiveTab('code')
       setLoading(true)
-      const PROMPT= JSON.stringify(messages)+" "+"SOME PROMPT"
+      const PROMPT= JSON.stringify(messages)+" "+Prompt.CODE_GEN_PROMPT
       const result= await axios.post('/api/ai-code',{
         prompt: PROMPT
       })
-      console.log("ai-code",result.data)
       const aiResponse=result.data
-  
       const mergeFiles= {...Files,...aiResponse?.files}
       setFiles(mergeFiles)
       await UpdateFiles({
@@ -66,6 +65,7 @@ const CodeView = () => {
       setLoading(false)
     }
   
+
   
   
     return (

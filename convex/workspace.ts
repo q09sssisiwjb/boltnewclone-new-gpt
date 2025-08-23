@@ -19,7 +19,7 @@ export const CreateWorkSpace = mutation({
 
       return workSpaceId;
     } catch (error) {
-      console.log("Error creating workspace:", error);
+      console.error("Error creating workspace:", error);
       throw new Error("Failed to create workspace");
     }
   }
