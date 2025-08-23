@@ -6,7 +6,7 @@ interface UserDetail {
   _creationTime: number;
   name: string;
   email: string;
-  picture: string;
+  pic: string;
   uid: string;
 }
 
