@@ -1,14 +1,22 @@
 export const LOOKUP = {
-  SUGGESTIONS: ['Create ToDo App in React', 'Create Budget Track App', 'Create Gym Management Portal Dashboard', 'Create Quiz App On History', 'Create Login Signup Screen'],
-  HERO_HEADING: 'What do you want to build?',
-  HERO_DESC: 'Prompt, run, edit, and deploy Frontend web apps.',
-  INPUT_PLACEHOLDER: 'What you want to build?',
-  SIGNIN_HEADING: 'Continue With Bolt.New Clone',
-  SIGNIN_SUBHEADING: 'To use Bolt you must log into an existing account or create one.',
-  SIGNIN_AGREEMENT_TEXT: 'By using Bolt, you agree to the collection of usage data for analytics.',
+  SUGGESTIONS: [
+    "Create ToDo App in React",
+    "Create Budget Track App",
+    "Create Gym Management Portal Dashboard",
+    "Create Quiz App On History",
+    "Create Login Signup Screen",
+  ],
+  HERO_HEADING: "What do you want to build?",
+  HERO_DESC: "Prompt, run, edit, and deploy Frontend web apps.",
+  INPUT_PLACEHOLDER: "What you want to build?",
+  SIGNIN_HEADING: "Continue With Bolt.New Clone",
+  SIGNIN_SUBHEADING:
+    "To use Bolt you must log into an existing account or create one.",
+  SIGNIN_AGREEMENT_TEXT:
+    "By using Bolt, you agree to the collection of usage data for analytics.",
 
   DEFAULT_FILE: {
-    '/public/index.html': {
+    "/public/index.html": {
       code: `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,15 +28,15 @@ export const LOOKUP = {
   <body>
     <div id="root"></div>
   </body>
-</html>`
+</html>`,
     },
-    '/App.css': {
+    "/App.css": {
       code: `
             @tailwind base;
 @tailwind components;
-@tailwind utilities;`
+@tailwind utilities;`,
     },
-    '/tailwind.config.js': {
+    "/tailwind.config.js": {
       code: `
             /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -39,9 +47,9 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}`
+}`,
     },
-    '/postcss.config.js': {
+    "/postcss.config.js": {
       code: `/** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
@@ -50,8 +58,8 @@ const config = {
 };
 
 export default config;
-`
-    }
+`,
+    },
   },
   DEPENDENCY: {
     "@codesandbox/sandpack-react": "^2.20.0",
@@ -59,52 +67,52 @@ export default config;
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@types/uuid4": "^2.0.3",
-    "axios": "^1.7.9",
+    axios: "^1.7.9",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "convex": "^1.19.2",
-    "dedent": "^1.5.3",
+    clsx: "^2.1.1",
+    convex: "^1.19.2",
+    dedent: "^1.5.3",
     "lucide-react": "^0.475.0",
-    "next": "15.1.7",
+    next: "15.1.7",
+
     "next-themes": "^0.4.4",
-    "react": "^18.0.0",
+    react: "^18.0.0",
     "react-dom": "^18.0.0",
     "react-markdown": "^10.0.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
-    "uuid4": "^2.0.3"
+    uuid4: "^2.0.3",
   },
-  PRICING_DESC: 'Start with a free account to speed up your workflow on public projects or boost your entire team with instantly-opening production environments.',
+  PRICING_DESC:
+    "Start with a free account to speed up your workflow on public projects or boost your entire team with instantly-opening production environments.",
   PRICING_OPTIONS: [
     {
-      name: 'Basic',
-      tokens: '50K',
+      name: "Basic",
+      tokens: "50K",
       value: 50000,
-      desc: 'Ideal for hobbyists and casual users for light, exploratory use.',
-      price: 4.99
+      desc: "Ideal for hobbyists and casual users for light, exploratory use.",
+      price: 4.99,
     },
     {
-      name: 'Starter',
-      tokens: '120K',
+      name: "Starter",
+      tokens: "120K",
       value: 120000,
-      desc: 'Designed for professionals who need to use Bolt a few times per week.',
-      price: 9.99
+      desc: "Designed for professionals who need to use Bolt a few times per week.",
+      price: 9.99,
     },
     {
-      name: 'Pro',
-      tokens: '2.5M',
+      name: "Pro",
+      tokens: "2.5M",
       value: 2500000,
-      desc: 'Designed for professionals who need to use Bolt a few times per week.',
-      price: 19.99
+      desc: "Designed for professionals who need to use Bolt a few times per week.",
+      price: 19.99,
     },
     {
-      name: 'Unlimted (License)',
-      tokens: 'Unmited',
+      name: "Unlimted (License)",
+      tokens: "Unmited",
       value: 999999999,
-      desc: 'Designed for professionals who need to use Bolt a few times per week.',
-      price: 49.99
-    }
-  ]
-
-
-}
+      desc: "Designed for professionals who need to use Bolt a few times per week.",
+      price: 49.99,
+    },
+  ],
+};
