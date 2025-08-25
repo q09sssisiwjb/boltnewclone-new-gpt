@@ -6,6 +6,7 @@ import React, { useContext, useState } from 'react'
 import LoginDialog from './LoginDialog';
 import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const Header = () => {
   const context = useContext(UserDetailContext)
@@ -34,9 +35,9 @@ const Header = () => {
 
   return (
     <div className='p-4 flex items-center justify-between'>
-      <a href='/'>
+      <Link href='/'>
         <Image src={"https://bolt.new/static/favicon.svg"} alt='Logo' width={50} height={50} />
-      </a>
+      </Link>
       {!userDetail?.name && (
         <div className='flex gap-5'>
           <Button variant={'ghost'} onClick={handleOpenDialog}>Sign in</Button>

@@ -5,7 +5,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { LOOKUP } from '@/data/Lookup'
 import { Button } from '@/components/ui/button'
@@ -17,7 +16,7 @@ import { api } from '@/convex/_generated/api'
 import uuid4 from 'uuid4'
 
 
-//   @ts-ignore
+// @ts-expect-error - Props are passed from parent component without explicit typing
 const LoginDialog = ({ openDialog, closeDialog }) => {
   const context = useContext(UserDetailContext)
   if (!context) throw new Error('UserDetailContext must be used within UserDetailProvider')
