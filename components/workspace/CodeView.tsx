@@ -36,7 +36,7 @@ const CodeView = () => {
     const GetFiles=async()=>{
       setLoading(true)
       const result= await convex.query(api.workspace.GetUserWorkSpace,{
-        workspaceId:id as any
+        workspaceId:id as Id<"workspaces">
       })
       const mergeFiles= {...result?.fileData}
       setFiles(mergeFiles)
@@ -62,7 +62,7 @@ const CodeView = () => {
       const mergeFiles= {...Files,...aiResponse?.files}
       setFiles(mergeFiles)
       await UpdateFiles({
-        workspaceId:id as any,
+        workspaceId:id as Id<"workspaces">,
         fileData:aiResponse?.files
       })
       setLoading(false)
