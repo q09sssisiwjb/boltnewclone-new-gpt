@@ -29,16 +29,28 @@ const CodeView = () => {
     const UpdateFiles=useMutation(api.workspace.UpdateFiles)
     const convex= useConvex();
 
+    useEffect(()=>{
+      id&&GetFiles()
+    },[id])
+  
     const GetFiles=async()=>{
       setLoading(true)
       const result= await convex.query(api.workspace.GetUserWorkSpace,{
-        workspaceId:id as Id<"workspaces">
+        workspaceId:id as any
       })
       const mergeFiles= {...result?.fileData}
       setFiles(mergeFiles)
       setLoading(false)
     }
-
+  
+    useEffect(()=>{
+      if(messages?.length > 0){
+         const role= messages[messages.length-1].role;
+          if(role === 'user'){
+            GenerateAiCode()
+          }
+      }
+    },[messages])
     const GenerateAiCode=async()=>{
       setActiveTab('code')
       setLoading(true)
@@ -50,27 +62,12 @@ const CodeView = () => {
       const mergeFiles= {...Files,...aiResponse?.files}
       setFiles(mergeFiles)
       await UpdateFiles({
-        workspaceId:id as Id<"workspaces">,
+        workspaceId:id as any,
         fileData:aiResponse?.files
       })
       setLoading(false)
     }
-
-    useEffect(()=>{
-      if(id) {
-        GetFiles()
-      }
-    },[id])
-
-    useEffect(()=>{
-      if(messages?.length > 0){
-         const role= messages[messages.length-1].role;
-          if(role === 'user'){
-            GenerateAiCode()
-          }
-      }
-    },[messages])
-
+  
     return (
       <div className='relative'>
         <div className='bg-[#181818] w-full p-2 border -mt-10'>
