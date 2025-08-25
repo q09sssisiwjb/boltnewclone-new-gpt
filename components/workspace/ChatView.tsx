@@ -71,7 +71,7 @@ const ChatView = () => {
     if(id){
         GetWorkspaceData();
     }
-  }, [id, GetWorkspaceData]);
+  }, [id]);
 
   useEffect(()=>{
     if(messages.length > 0){
