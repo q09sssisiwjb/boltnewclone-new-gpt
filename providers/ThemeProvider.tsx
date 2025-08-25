@@ -42,7 +42,7 @@ export function ThemeProvider({
         const result = await convex.query(api.user.GetUser, {
           email: user.email
         });
-        setUserDetail(result as any);
+        setUserDetail(result);
         console.error(result);
       }
     }
