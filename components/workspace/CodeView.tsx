@@ -60,7 +60,7 @@ const CodeView = () => {
       if(id) {
         GetFiles()
       }
-    },[id, GetFiles])
+    },[id])
 
     useEffect(()=>{
       if(messages?.length > 0){
@@ -69,7 +69,7 @@ const CodeView = () => {
             GenerateAiCode()
           }
       }
-    },[messages, GenerateAiCode])
+    },[messages])
 
     return (
       <div className='relative'>
