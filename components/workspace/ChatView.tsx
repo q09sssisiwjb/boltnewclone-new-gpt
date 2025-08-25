@@ -3,6 +3,7 @@ import { useConvex, useMutation } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import React, {useContext, useEffect, useState} from "react";
 import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { MessageContext } from "@/providers/MessageContext";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import Image  from "next/image";
@@ -23,13 +24,42 @@ const ChatView = () => {
   const UpdateMessages= useMutation(api.workspace.UpdateMessages)
   const router = useRouter();
 
-  if(!userDetailContext || !messageContext) {
-    console.error("UserDetailContext or MessageContext is not available");
-    return null;
+  // Get context values safely
+  const userDetail = userDetailContext?.userDetail;
+  const messages = messageContext?.messages || [];
+  const setMessages = messageContext?.setMessages || (() => {});
+
+  const GetWorkspaceData = async () => {
+    try {
+      const result = await convex.query(api.workspace.GetUserWorkSpace, {
+        workspaceId: id as Id<"workspaces">,
+      });
+      setMessages(result?.message );
+    } catch (error) {
+      console.error("Error fetching workspace data:", error);
+    }
+  };
+
+  const GetAiResponse= async ()=>{
+    setLoading(true)
+    const PROMPT= JSON.stringify(messages)+ " "+Prompt.CHAT_PROMPT
+    const result = await axios.post('/api/ai-chat',{
+       prompt:PROMPT
+    })
+    const aiResponse={role:'ai',content:result.data.result}
+    setMessages((prev: Array<{role: string, content: string}> )=>[...prev,aiResponse]);
+    // console.log("ai:",result.data.result)
+    await UpdateMessages({
+      message: [...messages,aiResponse],
+      workspaceId:id as Id<"workspaces">
+    })
+    setLoading(false)
   }
 
-  const {userDetail} = userDetailContext;
-  const {messages, setMessages} = messageContext;
+  const onGenerate=(input: string )=>{
+      setMessages((prev: Array<{role: string, content: string}> )=>[...prev,{role:'user',content:input}]);
+      setUserInput('');
+  }
 
   useEffect(() => {
     if(!userDetail?.name) {
@@ -41,18 +71,7 @@ const ChatView = () => {
     if(id){
         GetWorkspaceData();
     }
-  }, [id]);
-
-  const GetWorkspaceData = async () => {
-    try {
-      const result = await convex.query(api.workspace.GetUserWorkSpace, {
-        workspaceId: id as any,
-      });
-      setMessages(result?.message );
-    } catch (error) {
-      console.error("Error fetching workspace data:", error);
-    }
-  };
+  }, [id, GetWorkspaceData]);
 
   useEffect(()=>{
     if(messages.length > 0){
@@ -61,34 +80,19 @@ const ChatView = () => {
           GetAiResponse()
         }
     }
-  },[messages])
+  },[messages, GetAiResponse])
 
-  const GetAiResponse= async ()=>{
-    setLoading(true)
-    const PROMPT= JSON.stringify(messages)+ " "+Prompt.CHAT_PROMPT
-    const result = await axios.post('/api/ai-chat',{
-       prompt:PROMPT
-    })
-    const aiResponse={role:'ai',content:result.data.result}
-    setMessages((prev: any )=>[...prev,aiResponse]);
-    // console.log("ai:",result.data.result)
-    await UpdateMessages({
-      message: [...messages,aiResponse],
-      workspaceId:id as any
-    })
-    setLoading(false)
-  }
-
-  const onGenerate=(input:any )=>{
-      setMessages((prev: any )=>[...prev,{role:'user',content:input}]);
-      setUserInput('');
+  // Early return after all hooks
+  if(!userDetailContext || !messageContext) {
+    console.error("UserDetailContext or MessageContext is not available");
+    return null;
   }
 
   return (
     <div className='relative h-[76vh] flex flex-col'>
       <div className='flex-1 overflow-y-scroll no-scrollbar'>
 
-      {Array.isArray(messages) && messages?.map((msg: any, index: number) => {
+      {Array.isArray(messages) && messages?.map((msg: {role: string, content: string}, index: number) => {
         return (
           <div key={index} className='bg-[#272727] p-3 rounded-lg m-2 flex gap-5 itmes-start '>
             {msg.role === 'user' && (
