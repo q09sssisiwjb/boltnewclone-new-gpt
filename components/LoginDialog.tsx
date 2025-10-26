@@ -19,8 +19,12 @@ import {
   updateProfile
 } from 'firebase/auth'
 
-// @ts-expect-error - Props are passed from parent component without explicit typing
-const LoginDialog = ({ openDialog, closeDialog }) => {
+interface LoginDialogProps {
+  openDialog: boolean;
+  closeDialog: (isOpen: boolean) => void;
+}
+
+const LoginDialog = ({ openDialog, closeDialog }: LoginDialogProps) => {
   const context = useContext(UserDetailContext)
   if (!context) throw new Error('UserDetailContext must be used within UserDetailProvider')
   

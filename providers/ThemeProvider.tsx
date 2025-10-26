@@ -36,13 +36,20 @@ export function ThemeProvider({
 
   const IsAuthenticated = async () => {
     if (typeof window !== 'undefined') {
-      const user = JSON.parse(localStorage.getItem('user') as string);
-      if (user && user.email) {
-        const result = await convex.query(api.user.GetUser, {
-          email: user.email
-        });
-        setUserDetail(result);
-        console.error(result);
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user && user.email) {
+            const result = await convex.query(api.user.GetUser, {
+              email: user.email
+            });
+            setUserDetail(result);
+          }
+        } catch (error) {
+          console.error('Failed to parse user from localStorage:', error);
+          localStorage.removeItem('user');
+        }
       }
     }
   };
