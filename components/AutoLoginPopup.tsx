@@ -29,7 +29,7 @@ const AutoLoginPopup = ({ openDialog, onContinue }: AutoLoginPopupProps) => {
 
   return (
     <Dialog open={openDialog} onOpenChange={() => {}}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle className='font-bold text-3xl text-white text-center'>
             Welcome!
