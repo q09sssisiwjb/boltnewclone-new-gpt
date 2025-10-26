@@ -62,12 +62,11 @@ const LoginDialog = ({ openDialog, closeDialog }) => {
         const userData = {
           name: name,
           email: user.email,
-          picture: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`,
         }
         if (typeof window !== 'undefined') {
           localStorage.setItem('user', JSON.stringify(userData))
         }
-        setUserDetail(userData)
+        window.location.reload()
       } else {
         // Sign in
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
@@ -76,12 +75,11 @@ const LoginDialog = ({ openDialog, closeDialog }) => {
         const userData = {
           name: user.displayName || 'User',
           email: user.email,
-          picture: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}`,
         }
         if (typeof window !== 'undefined') {
           localStorage.setItem('user', JSON.stringify(userData))
         }
-        setUserDetail(userData)
+        window.location.reload()
       }
       closeDialog(false)
     } catch (err: unknown) {
