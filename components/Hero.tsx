@@ -4,11 +4,15 @@ import { MessageContext } from "@/providers/MessageContext";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import { LOOKUP } from "@/data/Lookup";
 import { ArrowRight, Link } from "lucide-react";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import LoginDialog from "./LoginDialog";
+import AutoLoginPopup from "./AutoLoginPopup";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
+import { generateRandomCredentials, generateRandomAvatar } from "@/lib/autoLogin";
+import { auth } from '@/configs/firebase'
+import { signInAnonymously } from 'firebase/auth'
 
 export const Hero = () => {
   const [userInput, setUserInput] = useState<string>('');
@@ -20,13 +24,67 @@ export const Hero = () => {
   }
 
   const { messages, setMessages } = messageContext;
-  const { userDetail } = userDetailContext;
+  const { userDetail, setUserDetail } = userDetailContext;
   const [openDialog, setOpenDialog] = useState(false);
+  const [showAutoLogin, setShowAutoLogin] = useState(false);
+  const CreateUser = useMutation(api.user.CreateUser);
   const Createworkspace = useMutation(api.workspace.CreateWorkSpace);
   const getUserData = useQuery(api.user.GetUser,
     userDetail?.email ? { email: userDetail.email } : "skip"
   );
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hasVisited = localStorage.getItem('hasVisited');
+      const user = localStorage.getItem('user');
+      
+      if (!hasVisited && !user) {
+        setShowAutoLogin(true);
+      }
+    }
+  }, []);
+
+  const handleAutoLogin = async () => {
+    try {
+      const { username, email } = generateRandomCredentials();
+      const avatarUrl = generateRandomAvatar(username);
+      
+      const userCredential = await signInAnonymously(auth);
+      const user = userCredential.user;
+
+      const convexUserId = await CreateUser({
+        name: username,
+        email: email,
+        picture: avatarUrl,
+        uid: user.uid,
+      });
+
+      if (!convexUserId) {
+        throw new Error("Failed to create user in database");
+      }
+
+      const userData = {
+        name: username,
+        email: email,
+        pic: avatarUrl,
+        uid: user.uid,
+        _id: convexUserId,
+        _creationTime: Date.now(),
+      };
+      
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('hasVisited', 'true');
+      }
+      
+      setUserDetail(userData as any);
+      setShowAutoLogin(false);
+    } catch (error) {
+      console.error("Error creating auto-login account:", error);
+      alert("Failed to create account. Please try again.");
+    }
+  };
 
   const onGenerate = async (input: string) => {
     if (!userDetail?.name) {
@@ -99,6 +157,7 @@ export const Hero = () => {
         ))}
       </div>
       <LoginDialog openDialog={openDialog} closeDialog={(v: boolean) => setOpenDialog(v)} />
+      <AutoLoginPopup openDialog={showAutoLogin} onContinue={handleAutoLogin} />
     </div>
   )
 

@@ -38,12 +38,6 @@ const Header = () => {
       <Link href='/'>
         <Image src={"https://bolt.new/static/favicon.svg"} alt='Logo' width={50} height={50} />
       </Link>
-      {!userDetail?.name && (
-        <div className='flex gap-5'>
-          <Button variant={'ghost'} onClick={handleOpenDialog}>Sign in</Button>
-          <Button className='bg-[#2ba6ff] text-white' onClick={handleOpenDialog}>Get started</Button>
-        </div>
-      )}
       {
         userDetail?.name && (
           <div className='relative'>
