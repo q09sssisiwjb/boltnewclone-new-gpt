@@ -61,10 +61,12 @@ const CodeView = () => {
       const aiResponse=result.data
       const mergeFiles= {...Files,...aiResponse?.files}
       setFiles(mergeFiles)
-      await UpdateFiles({
-        workspaceId:id as Id<"workspaces">,
-        fileData:aiResponse?.files
-      })
+      if (aiResponse?.files) {
+        await UpdateFiles({
+          workspaceId:id as Id<"workspaces">,
+          fileData:aiResponse?.files
+        })
+      }
       setLoading(false)
     }
   
