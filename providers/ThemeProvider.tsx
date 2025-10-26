@@ -6,6 +6,8 @@ import { MessageContext } from "@/providers/MessageContext";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { auth } from "@/configs/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 interface UserDetail {
   _id: string;
@@ -31,7 +33,18 @@ export function ThemeProvider({
   const convex = useConvex();
 
   React.useEffect(() => {
-    IsAuthenticated();
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        await IsAuthenticated();
+      } else {
+        setUserDetail(null);
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user');
+        }
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const IsAuthenticated = async () => {
@@ -44,7 +57,9 @@ export function ThemeProvider({
             const result = await convex.query(api.user.GetUser, {
               email: user.email
             });
-            setUserDetail(result);
+            if (result) {
+              setUserDetail(result);
+            }
           }
         } catch (error) {
           console.error('Failed to parse user from localStorage:', error);
