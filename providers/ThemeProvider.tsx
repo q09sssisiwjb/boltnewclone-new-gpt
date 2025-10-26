@@ -4,7 +4,6 @@ import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { MessageContext } from "@/providers/MessageContext";
 import { UserDetailContext } from "@/context/UserDetailContext";
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
@@ -49,16 +48,12 @@ export function ThemeProvider({
   };
 
   return (
-    <>
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}>
-        <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
-          <MessageContext.Provider value={{ messages, setMessages }}>
-            <NextThemesProvider {...props}>
-              {children}
-            </NextThemesProvider>
-          </MessageContext.Provider>
-        </UserDetailContext.Provider>
-      </GoogleOAuthProvider>
-    </>
+    <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
+      <MessageContext.Provider value={{ messages, setMessages }}>
+        <NextThemesProvider {...props}>
+          {children}
+        </NextThemesProvider>
+      </MessageContext.Provider>
+    </UserDetailContext.Provider>
   );
 }
