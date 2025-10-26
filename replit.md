@@ -63,9 +63,12 @@ Preferred communication style: Simple, everyday language.
 
 **Provider**: Firebase Authentication
 - **Auto-login with Anonymous Auth** (added Oct 26, 2025): First-time visitors see a welcome popup and are instantly signed in with anonymous Firebase authentication
+- **Session Persistence** (updated Oct 26, 2025): Anonymous and email/password sessions persist across page refreshes using Firebase browserLocalPersistence
+- **Auth State Listener** (added Oct 26, 2025): ThemeProvider monitors Firebase auth state changes to automatically restore user sessions on page reload
 - Email/password authentication: Available via LoginDialog for manual sign-in if needed
 - Client-side session management via localStorage with safe null handling
 - Firebase config embedded in codebase (public credentials)
+- **Account Management**: Users can logout or permanently delete their accounts from the Header dropdown menu
 
 **Auto-Login Flow** (Primary):
 1. First-time visitor lands on homepage
@@ -77,6 +80,7 @@ Preferred communication style: Simple, everyday language.
 7. User data stored in localStorage for persistence
 8. Popup closes and user can immediately start building
 9. No page reload - instant access with state hydrated directly in context
+10. **On page refresh**: Firebase auth state listener automatically restores the session
 
 **Manual Login Flow** (Alternative):
 1. User signs up or logs in via LoginDialog component with email/password form
@@ -86,6 +90,19 @@ Preferred communication style: Simple, everyday language.
 5. Page reloads to trigger context refresh from Convex
 6. ThemeProvider safely parses localStorage and fetches user details from Convex
 7. Protected routes check for user session on mount
+
+**Session Persistence Implementation**:
+- Firebase auth configured with `browserLocalPersistence` in `configs/firebase.ts`
+- `onAuthStateChanged` listener in `ThemeProvider` detects auth state changes
+- When Firebase user is detected, localStorage user data is read and Convex user details are fetched
+- When Firebase user is signed out, user state is cleared from context and localStorage
+- Sessions persist across page refreshes, browser tabs, and even browser restarts
+
+**Account Management**:
+- **Logout**: Click user avatar → Logout. Signs out from Firebase and clears localStorage
+- **Delete Account**: Click user avatar → Delete Account. Permanently removes Firebase user and clears all local data
+- Account deletion requires confirmation dialog to prevent accidental deletion
+- Note: Convex user records may remain after account deletion (orphaned records are harmless and can be cleaned up via admin processes)
 
 ### AI Integration
 
