@@ -62,15 +62,23 @@ Preferred communication style: Simple, everyday language.
 ### Authentication
 
 **Provider**: Firebase Authentication
-- Email/password authentication (migrated from Google OAuth on Oct 26, 2025)
-- User registration with email, password, and name
-- User sign-in with email and password
-- User profile management with displayName updates
+- **Auto-login with Anonymous Auth** (added Oct 26, 2025): First-time visitors see a welcome popup and are instantly signed in with anonymous Firebase authentication
+- Email/password authentication: Available via LoginDialog for manual sign-in if needed
 - Client-side session management via localStorage with safe null handling
 - Firebase config embedded in codebase (public credentials)
-- Page reload triggers context refresh from Convex after authentication
 
-**Flow**:
+**Auto-Login Flow** (Primary):
+1. First-time visitor lands on homepage
+2. AutoLoginPopup appears with "Continue" button
+3. User clicks Continue
+4. Firebase anonymous authentication creates temporary session (no real account needed)
+5. Random username and avatar generated automatically
+6. User record created in Convex database with Firebase UID
+7. User data stored in localStorage for persistence
+8. Popup closes and user can immediately start building
+9. No page reload - instant access with state hydrated directly in context
+
+**Manual Login Flow** (Alternative):
 1. User signs up or logs in via LoginDialog component with email/password form
 2. Firebase creates/authenticates user
 3. For sign-up: displayName is updated and user record synced to Convex database
@@ -107,7 +115,7 @@ Preferred communication style: Simple, everyday language.
 ### Code Generation Workflow
 
 1. User enters prompt on hero page or in workspace chat
-2. If not authenticated, login dialog appears
+2. If not authenticated, auto-login popup appears (or manual login dialog for returning users)
 3. System creates workspace in Convex with user message
 4. User redirected to workspace view (`/workspace/[id]`)
 5. Chat AI generates conversational response about the build
@@ -131,8 +139,9 @@ Preferred communication style: Simple, everyday language.
 - Fetches user details from Convex on mount if authenticated
 
 **Key Component Responsibilities**:
-- `Hero`: Landing page with suggestions and prompt input
-- `Header`: Navigation and user authentication UI (Sign in/Get started buttons)
+- `Hero`: Landing page with suggestions, prompt input, and auto-login integration
+- `Header`: Navigation and user profile display (no sign-in buttons - auto-login handles authentication)
+- `AutoLoginPopup`: Welcome popup for first-time visitors with instant account creation
 - `LoginDialog`: Modal for Firebase email/password authentication with toggle between sign-up and sign-in modes
 - `ChatView`: Workspace chat interface with message history
 - `CodeView`: Sandpack editor with file explorer and preview
