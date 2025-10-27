@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Coding Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0d7ff2",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101922",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center">
+<span class="material-symbols-outlined text-3xl">hub</span>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-3xl">account_circle</span>
+</button>
+</div>
+</div>
+<h1 class="text-white tracking-light text-[32px] font-bold leading-tight px-4 text-left pb-3 pt-6">Build anything, instantly.</h1>
+<div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<textarea class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-background-dark/80 dark:bg-[#1a2632] focus:border-none min-h-36 placeholder:text-[#9cabba] p-4 text-base font-normal leading-normal" placeholder="Describe the app you want to build..."></textarea>
+</label>
+</div>
+<div class="flex px-4 py-3 justify-center">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Generate</span>
+</button>
+</div>
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Start with a Template</h2>
+<div class="flex overflow-x-auto snap-x snap-mandatory space-x-4 px-4 py-3 no-scrollbar">
+<div class="flex-shrink-0 w-[80%] snap-center">
+<div class="bg-background-dark/80 dark:bg-[#1a2632] rounded-xl overflow-hidden">
+<img class="h-40 w-full object-cover" data-alt="Abstract gradient representing a Netflix-style interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE8Veu6e7xV2eFJHs5k3nRG3p09GjNK_tvy8o8oD4D9JtmZt0lpMYe0bA7y6aWtzFiui-JaVOASs2LWjwfVZvmIRVxYNe3kBUXTFuFKddBsoLB6WClfJS0FWW2js7cjAm4dNrou4OMkHOiDZXqEaeikjsm8BuxoqDSGf5OTaqV7av1CW0IJxIpwFSYCjCtu2QrVngDD45i2mu-QBZhgeLGiNmR-wGZynmMrz92Nqg-6pFHV4w60bH9TfZMKCrKQ2AUzuzDfkf10ozD"/>
+<div class="p-4">
+<h3 class="font-bold text-lg">Netflix Clone</h3>
+<p class="text-sm text-gray-400">A video streaming app interface.</p>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 w-[80%] snap-center">
+<div class="bg-background-dark/80 dark:bg-[#1a2632] rounded-xl overflow-hidden">
+<img class="h-40 w-full object-cover" data-alt="Abstract representation of a YouTube-like video feed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo8fKCYB7in5YSEOzYusRRBVGzFtXAIOu57a-Q7IoEgMuK2T6lggncL1XY-sb03EHdYHOdxAp4gTEBuoXJ3UKLrBFnYG1naTAux6PBREAp9Jy56vKvzEGgBc-uvwck4sXZPRGh_2s3cblwMywFfxd9PK6Yc97eEhqdL0UMEYFXqJpbklfR1H5p_krywoerDtIxtBxezno5WgOVGvTmDgXIMrXWMYVzIWXkVypzKqtMNfWh6-a0JWEOjoY51yCowwtg0aG-MiaqsGmZ"/>
+<div class="p-4">
+<h3 class="font-bold text-lg">YouTube Clone</h3>
+<p class="text-sm text-gray-400">A video feed and playback interface.</p>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 w-[80%] snap-center">
+<div class="bg-background-dark/80 dark:bg-[#1a2632] rounded-xl overflow-hidden">
+<img class="h-40 w-full object-cover" data-alt="Stylized map with property listings for an Airbnb clone" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1ISsqh5560r8haEoeithwgL_IMeUywVoKnydHQY_r4LxUR8RbumG6nJTnDoLUGVcK2zb5tR7i2lmwE9zUoPrWWIykZzCKEUKlvtqYDfFA_wsL9rTnf0obhFtS4Xjws_hGwa33IYwsZ592Uz5bjlVlHNOR7dwjNxfj8xkH4B5E4wYaUSu9cWZkAuw5uPaDQjfOoCdgyLTSS9HWLER9dpk05EeuO94gjpMQNEjfVH5fdTNOd8cz_Zf3FsvSo9Rm43j1k7lwbTOgoww8"/>
+<div class="p-4">
+<h3 class="font-bold text-lg">Airbnb Clone</h3>
+<p class="text-sm text-gray-400">Property listings with an integrated map.</p>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 w-[80%] snap-center">
+<div class="bg-background-dark/80 dark:bg-[#1a2632] rounded-xl overflow-hidden">
+<img class="h-40 w-full object-cover" data-alt="Kanban board with columns and tasks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoJyOhFYqylWDry0zxORP4UZL-o5ovNh2iDKih3CQAizmYnRoB-rt1fXwuP5DLdZ_aEMkasiwJmrh4d8IkAVOt5ALUdEv_934MruzE7lqVoqo7fe3tADbijXAQ0vBNEppftDk5b1f2Hnewq1CDYXyj3DQvykz-nP9JPXhWtN7pvfBAmtn60fnsK3tvCQo2DoZV_tEWdO86C6smrAiprFfqpwgUaCqcpkhkTIcIwIGsyGTqKcAmMZBs0ya3FrP0G1yOFeRutblrAARC"/>
+<div class="p-4">
+<h3 class="font-bold text-lg">Kanban Board</h3>
+<p class="text-sm text-gray-400">A task management board with columns.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="h-5"></div>
+</div>
+</body></html>
