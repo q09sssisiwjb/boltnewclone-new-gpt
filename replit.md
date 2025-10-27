@@ -31,7 +31,7 @@ Preferred communication style: Simple, everyday language.
 - Local storage for client-side user session persistence
 
 **Key Pages**:
-- `/` - Landing page with hero section and prompt input
+- `/` - Landing page with integrated header, hero section, prompt input, and template cards (Redesigned Oct 27, 2025)
 - `/workspace/[id]` - Split view workspace with chat interface and code editor
 
 **Code Editor**: Sandpack React
@@ -70,9 +70,9 @@ Preferred communication style: Simple, everyday language.
 - Firebase config embedded in codebase (public credentials)
 - **Account Management**: Users can logout or permanently delete their accounts from the Header dropdown menu
 
-**Auto-Login Flow** (Primary):
+**Auto-Login Flow** (Primary - Updated Oct 27, 2025):
 1. First-time visitor lands on homepage
-2. AutoLoginPopup appears with "Continue" button
+2. **Instant popup trigger**: AutoLoginPopup appears immediately when user starts typing in the prompt textarea (if not logged in)
 3. User clicks Continue
 4. Firebase anonymous authentication creates temporary session (no real account needed)
 5. Random username and avatar generated automatically
@@ -156,9 +156,16 @@ Preferred communication style: Simple, everyday language.
 - Fetches user details from Convex on mount if authenticated
 
 **Key Component Responsibilities**:
-- `Hero`: Landing page with suggestions, prompt input, and auto-login integration
-- `Header`: Navigation and user profile display (no sign-in buttons - auto-login handles authentication)
-- `AutoLoginPopup`: Welcome popup for first-time visitors with instant account creation
+- `Hero`: Landing page with integrated header, modern UI design, template cards, prompt input, and auto-login integration (Redesigned Oct 27, 2025)
+  - Integrated header with Sparkles icon logo and user profile dropdown
+  - Large "Build anything, instantly." heading
+  - Modern styled textarea for app descriptions
+  - Blue "Generate" button
+  - Horizontal scrolling template cards (Netflix, YouTube, Airbnb, Kanban)
+  - Instant anonymous signup popup trigger when users type
+- `Header`: Navigation and user profile display for workspace pages (hidden on home page via ConditionalHeader)
+- `ConditionalHeader`: Wrapper component that conditionally renders Header only on non-home pages (Added Oct 27, 2025)
+- `AutoLoginPopup`: Welcome popup that appears instantly when unauthenticated users type in the prompt textarea (Updated Oct 27, 2025)
 - `LoginDialog`: Modal for Firebase email/password authentication with toggle between sign-up and sign-in modes
 - `ChatView`: Workspace chat interface with message history
 - `CodeView`: Sandpack editor with file explorer and preview
