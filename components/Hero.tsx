@@ -3,7 +3,7 @@
 import { MessageContext } from "@/providers/MessageContext";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import { LOOKUP } from "@/data/Lookup";
-import { ArrowRight, Sparkles, UserCircle2 } from "lucide-react";
+import { ArrowRight, Sparkles, UserCircle2, Loader2 } from "lucide-react";
 import React, { useState, useContext, useEffect } from "react";
 import LoginDialog from "./LoginDialog";
 import AutoLoginPopup from "./AutoLoginPopup";
@@ -56,6 +56,7 @@ export const Hero = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [showAutoLogin, setShowAutoLogin] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const CreateUser = useMutation(api.user.CreateUser);
   const Createworkspace = useMutation(api.workspace.CreateWorkSpace);
   const getUserData = useQuery(api.user.GetUser,
@@ -117,6 +118,12 @@ export const Hero = () => {
       setShowAutoLogin(true);
       return;
     }
+    
+    if (!input.trim()) {
+      return;
+    }
+    
+    setIsGenerating(true);
     const message = {
       role: 'user',
       content: input,
@@ -125,6 +132,7 @@ export const Hero = () => {
     try {
       if (!getUserData?._id) {
         console.error("User not found in database");
+        setIsGenerating(false);
         return;
       }
       const workspaceId = await Createworkspace({
@@ -136,6 +144,7 @@ export const Hero = () => {
       }
     } catch (error) {
       console.error("Error creating workspace:", error);
+      setIsGenerating(false);
     }
   }
 
@@ -218,10 +227,18 @@ export const Hero = () => {
 
       <div className="flex px-4 py-3 justify-center">
         <button 
-          className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-[#0d7ff2] text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-[#0c6fd9] transition-colors"
+          className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-[#0d7ff2] text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-[#0c6fd9] transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
           onClick={() => onGenerate(userInput)}
+          disabled={isGenerating}
         >
-          <span className="truncate">Generate</span>
+          {isGenerating ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin mr-2" />
+              <span className="truncate">Generating...</span>
+            </>
+          ) : (
+            <span className="truncate">Generate</span>
+          )}
         </button>
       </div>
 
